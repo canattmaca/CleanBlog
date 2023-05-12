@@ -15,7 +15,7 @@
             <div class="col-lg-8 col-md-10 mx-auto">
               <div class="post-heading">
                 <h1>
-                  <%= post.title %>
+                POST PAGE
                 </h1>
                 <span class="meta margin-top-2">Posted by
                   <a href="#">Start Bootstrap</a>
@@ -43,11 +43,14 @@
               <div class="d-flex flex-column align-items-center justify-content-center py-5 ">
                 <div class="w-75">
                   <div class="mb-4">
-                    <a href="/" class="btn btn-primary rounded w-100"><span>Update
+                    <a href="/post/edit/<%= post._id %>" class="btn btn-primary rounded w-100"><span>Update
                         Details</span></a>
                   </div>
                   <div class="mt-4">
-                    <a href="/" class="btn btn-danger rounded w-100"><span>Delete
+                    <a 
+                    href="/post/<%= post._id %>?_method=DELETE" 
+                    class="btn btn-danger rounded w-100"
+                    onclick="return confirm('are you sure?')"><span>Delete
                         Post</span></a>
                   </div>
                 </div>

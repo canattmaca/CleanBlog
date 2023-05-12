@@ -1,5 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
+const postControllers = require('./controllers/postControllers');
+const pageControllers = require('./controllers/pageControllers');
 
 const path = require('path');
 const ejs = require('ejs');
@@ -18,32 +21,18 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(methodOverride('_method', { methods: ['POST', 'GET'] }));
 
 //Routes
-app.get('/', async (req, res) => {
-  const posts = await BlogPost.find({});
-  res.render('index', {
-    posts,
-  });
-});
-app.get('/about', (req, res) => {
-  res.render('about');
-});
-app.get('/add', (req, res) => {
-  res.render('add');
-});
-app.get('/post', (req, res) => {
-  res.render('post');
-});
-app.get('/posts/:id', async (req, res) => {
-  const post = await BlogPost.findById(req.params.id);
-  // console.log(req.params.id);
-  res.render('post', { post });
-});
-app.post('/createPost', async (req, res) => {
-  await BlogPost.create(req.body);
-  res.redirect('/');
-});
+app.get('/', postControllers.getAllPosts);
+app.get('/post/:id', postControllers.getPost);
+app.post('/createPost', postControllers.createPost);
+app.put('/post/:id', postControllers.updatePost);
+app.delete('/post/:id', postControllers.deletePost);
+
+app.get('/about', pageControllers.getAboutPage);
+app.get('/add', pageControllers.getAddPage);
+app.get('/post/edit/:id', pageControllers.getEditPage);
 
 app.listen(port, () => {
   console.log(`Appjs listening on port ${port}`);
